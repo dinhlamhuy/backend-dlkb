@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get CRUD</title>
+</head>
+
+<body>
+
+    <table style="border-collapse: collapse; " border="1">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th colspan="2"></th>
+
+        </tr>
+        <% for(let i=0; i < user.length; i++) { %>
+            <tr>
+                <td>
+                    <%= user[i].id %>
+                </td>
+                <td>
+                    <%= user[i].firstName %>
+                </td>
+                <td>
+                    <%= user[i].lastName %>
+                </td>
+                <td>
+                    <%= user[i].gender %>
+                </td>
+                <td>
+                    <%= user[i].email %>
+                </td>
+                <td>
+                    <%= user[i].address %>
+                </td>
+                <td>
+                    <%= user[i].phoneNumber %>
+                </td>
+                <td>
+                    <a href="/edit-crud?id=<%= user[i].id %>">Edit</a>
+                </td>
+                <td>
+
+                    <a href="/delete-crud?id=<%= user[i].id %>">Delete</a>
+
+                </td>
+            </tr>
+            <% } %>
+    </table>
+
+
+</body>
+
+</html>

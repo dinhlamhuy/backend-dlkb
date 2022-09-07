@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input,
+        select {
+            width: 400px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+
+    <div>
+        <form action="/put-crud" method="POST">
+            <input type="hidden" name="id" value="<%= user.id %>"><br>
+            <label for="">First name</label><br>
+            <input type="text" name="firstName" value="<%= user.firstName %>"><br>
+
+            <label for="">Last Name</label><br>
+            <input type="text" name="lastName" value="<%= user.lastName %>"><br>
+
+            <label for="">Address</label><br>
+            <input type="text" name="address" value="<%= user.address %>"><br>
+
+            <label for="">Phone Number</label><br>
+            <input type="text" name="phoneNumber" value="<%= user.phoneNumber %>"><br>
+
+
+
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</body>
+
+</html>
