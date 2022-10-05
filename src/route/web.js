@@ -2,6 +2,10 @@ import express from "express";
 import homeController from "../controllers/homeController";
 import userController from "../controllers/userController";
 import doctorController from "../controllers/doctorController";
+import patientController from "../controllers/patientController";
+import specialtyController from "../controllers/specialtyController";
+import clinicController from "../controllers/clinicController";
+import jwtController from "../controllers/jwtController";
 
 let router = express.Router();
 
@@ -46,6 +50,40 @@ let initWebRoutes = (app) => {
     "/api/get-profile-doctor-by-id",
     doctorController.getProfileDoctorById
   );
+
+  // Patient
+  router.post(
+    "/api/patient-book-appointment",
+    patientController.postBookAppointment
+  );
+  router.post("/api/send-remedy", patientController.sendRemedy);
+  router.get(
+    "/api/get-list-patient-for-doctor",
+    patientController.getListPatient
+  );
+
+  //API Email
+  router.post("/verify-booking", patientController.verifyBooking);
+  router.post("/api/create-new-specialty", specialtyController.createSpecialty);
+  router.get("/api/get-all-specialty", specialtyController.getAllSpecialty);
+  router.get(
+    "/api/get-detail-specialty-by-id",
+    specialtyController.getDetailSpecialtyById
+  );
+
+  router.post("/api/create-new-clinic", clinicController.createClinic);
+  router.get("/api/get-all-clinic", clinicController.getAllClinic);
+  router.get(
+    "/api/get-detail-clinic-by-id",
+    clinicController.getDetailClinicById
+  );
+
+  router.get(
+    "/api/testjwt",
+    jwtController.verifyToken,
+    specialtyController.testjwt
+  );
   return app.use("/", router);
 };
+
 module.exports = initWebRoutes;

@@ -64,24 +64,41 @@ let getAllDoctorService = () => {
   });
 };
 
+let checkDetailInforDoctor = (inputData) => {
+  let arr = [
+    "doctorId",
+    "contentHTML",
+    "contentMarkdown",
+    "action",
+    "priceId",
+    "paymentId",
+    "provinceId",
+    "nameClinic",
+    "addressClinic",
+    "specialtyId",
+  ];
+  let isValid = true;
+  let element = "";
+  for (let i = 0; i < arr.length; i++) {
+    if (!inputData[arr[i]]) {
+      isValid = false;
+      element = arr[i];
+      break;
+    }
+  }
+  return {
+    isValid: isValid,
+    element: element,
+  };
+};
 let saveDetailInforDoctor = (inputInforDoctor) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let response = {};
-      if (
-        !inputInforDoctor.doctorId ||
-        !inputInforDoctor.contentHTML ||
-        !inputInforDoctor.contentMarkdown ||
-        !inputInforDoctor.action ||
-        !inputInforDoctor.priceId ||
-        !inputInforDoctor.paymentId ||
-        !inputInforDoctor.provinceId ||
-        !inputInforDoctor.nameClinic ||
-        !inputInforDoctor.addressClinic
-      ) {
+      let checkObj = checkDetailInforDoctor(inputInforDoctor);
+      if (checkObj.isValid === false) {
         resolve({
           errCode: 1,
-          errMessage: "Missing parameter",
+          errMessage: `Missing parameter: ${checkObj.element}`,
         });
       } else {
         if (inputInforDoctor.action === "CREATE") {
@@ -115,6 +132,8 @@ let saveDetailInforDoctor = (inputInforDoctor) => {
           doctorInfor.paymentId = inputInforDoctor.provinceId;
           doctorInfor.nameClinic = inputInforDoctor.nameClinic;
           doctorInfor.addressClinic = inputInforDoctor.addressClinic;
+          doctorInfor.specialtyId = inputInforDoctor.specialtyId;
+          doctorInfor.clinicId = inputInforDoctor.clinicId;
           doctorInfor.note = inputInforDoctor.note;
           await doctorInfor.save();
         } else {
@@ -125,6 +144,8 @@ let saveDetailInforDoctor = (inputInforDoctor) => {
             paymentId: inputInforDoctor.provinceId,
             nameClinic: inputInforDoctor.nameClinic,
             addressClinic: inputInforDoctor.addressClinic,
+            specialtyId: inputInforDoctor.specialtyId,
+            clinicId: inputInforDoctor.clinicId,
             note: inputInforDoctor.note,
           });
         }
@@ -275,6 +296,11 @@ let getScheduleByDateService = (doctorId, date) => {
               as: "timeTypeData",
               attributes: ["valueEn", "valueVi"],
             },
+            {
+              model: db.User,
+              as: "doctorData",
+              attributes: ["firstName", "lastName"],
+            },
           ],
           raw: true,
           nest: true,
@@ -379,6 +405,10 @@ let getProfileDoctorByIdService = (doctorId) => {
               model: db.Allcode,
               as: "positionData",
               attributes: ["valueVi", "valueEn"],
+            },
+            {
+              model: db.Markdown,
+              attributes: ["description", "contentHTML", "contentMarkdown"],
             },
           ],
           raw: true,
